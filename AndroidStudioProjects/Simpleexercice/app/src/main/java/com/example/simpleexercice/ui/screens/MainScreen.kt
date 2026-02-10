@@ -23,7 +23,7 @@ fun ShowScore(modifier: Modifier = Modifier, mainScreenViewModel: MainScreenView
         modifier = Modifier.padding(16.dp)
     ){
         Text(
-            text = "Score: ${mainScreenViewModel.score}"
+            text = "Score: ${mainScreenViewModel.uiState.score}"
         )
         OutlinedButton(
             onClick = {mainScreenViewModel.decrementScore()}

@@ -7,18 +7,22 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 
+data class MainScreenUiState(
+    var score: Int = 0
+)
+
 class MainScreenViewModel : ViewModel() {
 
     // Etat interne modifiable
-    var score by mutableStateOf(0)
+    var uiState by mutableStateOf(MainScreenUiState())
         private set
 
     fun incrementScore() {
-        score += 1
+        uiState = uiState.copy(score = uiState.score + 1)
     }
 
     fun decrementScore() {
-        score -= 1
+        uiState = uiState.copy(score = uiState.score - 1)
     }
 
 
