@@ -22,10 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.example.simpleexercice.ui.theme.SimpleExerciceTheme
 import android.util.Log
 import com.example.simpleexercice.ui.screens.ShowScore
-
-
-
-
+import com.example.simpleexercice.ui.screens.SmallNavigationExample
 
 
 class MainActivity : ComponentActivity() {
@@ -35,13 +32,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SimpleExerciceTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-                    ShowScore(modifier = Modifier.padding(innerPadding))
-                }
+                SmallNavigationExample(navigateBack = {})
             }
         }
 
