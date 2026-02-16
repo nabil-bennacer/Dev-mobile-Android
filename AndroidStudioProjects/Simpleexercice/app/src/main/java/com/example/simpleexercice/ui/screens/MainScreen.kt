@@ -99,12 +99,15 @@ fun SmallNavigationExample(navigateBack: () -> Unit) {
                     Text("Small Top App Bar")
                 },
                 navigationIcon = {
-                    IconButton(onClick = navigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Localized description"
-                        )
+                    if (backStack.size > 1){
+                        IconButton(onClick = {backStack.removeLastOrNull()}) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Localized description"
+                            )
+                        }
                     }
+
                 },
             )
         },
@@ -152,6 +155,14 @@ fun SmallNavigationExample(navigateBack: () -> Unit) {
 
                     Destination.SETTINGS -> NavEntry(key){
                         SettingsScreen(innerPadding)
+                    }
+
+                    Destination.PROFILE -> NavEntry(key){
+                        Box(
+                            modifier = Modifier.padding(innerPadding)
+                        ){
+                            Text("Profile")
+                        }
                     }
                     else -> {
                         NavEntry(Unit){ Text("Unknown route")}
