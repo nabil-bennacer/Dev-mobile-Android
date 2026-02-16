@@ -1,7 +1,9 @@
 package com.example.simpleexercice.ui.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,16 +26,23 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
 import org.jetbrains.annotations.ApiStatus
 
 enum class Destination(
@@ -42,9 +51,12 @@ enum class Destination(
     val icon: ImageVector,
     val contentDescription: String
 ) {
-    SONGS("songs", "Songs", Icons.Default.MusicNote, "Songs"),
-    ALBUM("album", "Album", Icons.Default.Album, "Album"),
-    PLAYLISTS("playlist", "Playlist", Icons.Default.PlaylistAddCircle, "Playlist")
+    HOME("home", "Home", Icons.Default.Album, "Home"),
+    PROFILE("profile", "Profile", Icons.Default.MusicNote, "Profile"),
+    SETTINGS("settings", "Settings", Icons.Default.PlaylistAddCircle, "Settings")
+//    SONGS("songs", "Songs", Icons.Default.MusicNote, "Songs"),
+//    ALBUM("album", "Album", Icons.Default.Album, "Album"),
+//    PLAYLISTS("playlist", "Playlist", Icons.Default.PlaylistAddCircle, "Playlist")
 }
 
 @Composable
@@ -69,10 +81,13 @@ fun ShowScore(modifier: Modifier = Modifier, mainScreenViewModel: MainScreenView
     }
 }
 
+
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmallNavigationExample(navigateBack: () -> Unit) {
+    val backStack = rememberSaveable() { mutableStateListOf<Any>(Destination.HOME) }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -104,8 +119,9 @@ fun SmallNavigationExample(navigateBack: () -> Unit) {
                 ) {
                     Destination.entries.forEachIndexed { index, destination ->
                         NavigationBarItem(
-                            selected = false,
+                            selected = true,
                             onClick = {
+                                backStack.add(destination)
                             },
                             icon = {
                                 Icon(
@@ -120,12 +136,46 @@ fun SmallNavigationExample(navigateBack: () -> Unit) {
             }
         }
     ) { innerPadding ->
-        Column(
+        NavDisplay(
+            backStack = backStack,
+            onBack = {backStack.removeLastOrNull()},
             modifier = Modifier.padding(innerPadding),
-        ) {
-            Text("Démo navigation")
-        }
+            entryProvider = { key ->
+                when(key){
+                    Destination.HOME -> NavEntry(key){
+                        Box(
+                            modifier = Modifier.padding(innerPadding)
+                        ){
+                            Text("Home")
+                        }
+                    }
+
+                    Destination.SETTINGS -> NavEntry(key){
+                        SettingsScreen(innerPadding)
+                    }
+                    else -> {
+                        NavEntry(Unit){ Text("Unknown route")}
+                    }
+                }
+            }
+        )
+
+//        Column(
+//            modifier = Modifier.padding(innerPadding),
+//        ) {
+//            Text("Démo navigation")
+//        }
         ShowScore()
 
     }
+}
+
+@Composable
+fun SettingsScreen(innerPadding: PaddingValues){
+    Box(
+        modifier = Modifier.padding(innerPadding)
+    ) {
+        Text("SETTINGS")
+    }
+
 }
