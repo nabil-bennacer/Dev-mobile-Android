@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -65,4 +65,8 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter.kotlinx.serialization)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 }

@@ -53,10 +53,12 @@ enum class Destination(
 ) {
     HOME("home", "Home", Icons.Default.Album, "Home"),
     PROFILE("profile", "Profile", Icons.Default.MusicNote, "Profile"),
-    SETTINGS("settings", "Settings", Icons.Default.PlaylistAddCircle, "Settings")
+    SETTINGS("settings", "Settings", Icons.Default.PlaylistAddCircle, "Settings"),
 //    SONGS("songs", "Songs", Icons.Default.MusicNote, "Songs"),
 //    ALBUM("album", "Album", Icons.Default.Album, "Album"),
 //    PLAYLISTS("playlist", "Playlist", Icons.Default.PlaylistAddCircle, "Playlist")
+    API("api", "API", Icons.Default.PlaylistAddCircle, "API")
+
 }
 
 @Composable
@@ -164,6 +166,13 @@ fun SmallNavigationExample(navigateBack: () -> Unit) {
                             Text("Profile")
                         }
                     }
+                    Destination.API -> NavEntry(key){
+                        Box(
+                            modifier = Modifier.padding(innerPadding)
+                        ){
+                            Text("API")
+                        }
+                    }
                     else -> {
                         NavEntry(Unit){ Text("Unknown route")}
                     }
@@ -190,3 +199,4 @@ fun SettingsScreen(innerPadding: PaddingValues){
     }
 
 }
+
